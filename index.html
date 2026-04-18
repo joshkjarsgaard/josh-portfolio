@@ -3,8 +3,30 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Josh Kjarsgaard — Video Producer</title>
-  <meta name="description" content="Josh Kjarsgaard is a Winnipeg-based video producer and Senior Manager of Creative Content at the Winnipeg Football Club." />
+  <title>Josh Kjarsgaard - Video Producer and Filmmaker in Winnipeg, Manitoba</title>
+  <meta name="description" content="Josh Kjarsgaard is a Winnipeg-based video producer, director, and cinematographer available for commercial, social, and documentary projects across Manitoba and Canada." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://joshkjarsgaard.com" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://joshkjarsgaard.com" />
+  <meta property="og:title" content="Josh Kjarsgaard - Video Producer and Filmmaker in Winnipeg, Manitoba" />
+  <meta property="og:description" content="Josh Kjarsgaard is a Winnipeg-based video producer, director, and cinematographer available for commercial, social, and documentary projects across Manitoba and Canada." />
+  <meta property="og:image" content="https://joshkjarsgaard.com/Josh%20K.-1.JPG" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Josh Kjarsgaard",
+    "jobTitle": "Video Producer and Filmmaker",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Winnipeg",
+      "addressRegion": "Manitoba",
+      "addressCountry": "CA"
+    },
+    "url": "https://joshkjarsgaard.com"
+  }
+  </script>
 
   <style>
     /* ── Reset & base ───────────────────────────────── */
@@ -70,7 +92,6 @@
 
     .header-name span {
       display: block;
-      color: var(--text);
     }
 
     .header-descriptor {
@@ -179,16 +200,9 @@
       gap: clamp(2px, 0.4vw, 4px);
     }
 
-    /* Card is a div — the link lives inside the drawer */
     .project-card {
       display: flex;
       flex-direction: column;
-    }
-
-    .card-header {
-      display: flex;
-      flex-direction: column;
-      cursor: pointer;
     }
 
     .project-thumb {
@@ -404,7 +418,6 @@
     .bio-photo img {
       width: 100%;
       height: 100%;
-      max-width: 100%;
       object-fit: cover;
       object-position: center top;
       display: block;
@@ -484,6 +497,7 @@
       letter-spacing: 0.1em;
       text-transform: uppercase;
       padding: 0.85em 2.2em;
+      min-height: 44px;
       border: none;
       cursor: pointer;
       transition: opacity 0.2s, transform 0.15s;
@@ -533,15 +547,16 @@
     /* ── Responsive ─────────────────────────────────── */
     @media (max-width: 720px) {
       .bio-grid { grid-template-columns: 1fr; }
-      .bio-photo { aspect-ratio: 2 / 3; max-width: 320px; }
-    }
-
-    @media (max-width: 600px) {
-      .project-grid { grid-template-columns: 1fr; }
+      .bio-photo { aspect-ratio: 2 / 3; max-width: 320px; margin-inline: auto; }
     }
 
     @media (max-width: 640px) {
+      .header-inner { flex-direction: column; align-items: flex-start; gap: 1rem; }
       .header-meta { text-align: left; }
+      .project-grid { grid-template-columns: 1fr; }
+      .modal { align-items: flex-start; padding: 1.25rem 0.75rem; }
+      .modal-content { max-width: 100%; }
+      .modal-description { font-size: 0.875rem; }
     }
   </style>
 </head>
@@ -604,11 +619,6 @@ const PROJECTS = [
 ];
 
 // ── Demo reel ─────────────────────────────────────────
-// Option A — direct video file (mp4, webm). Autoplay/mute/loop handled automatically.
-//   DEMO_REEL_VIDEO_URL = "https://example.com/your-reel.mp4"
-// Option B — YouTube embed URL. Add your video ID; loop & mute params are appended automatically.
-//   DEMO_REEL_EMBED_URL = "https://www.youtube.com/embed/YOUR_VIDEO_ID"
-// Set the one you're using; leave the other as "".
 const DEMO_REEL_VIDEO_URL = "";
 const DEMO_REEL_EMBED_URL = "https://www.youtube.com/embed/U4IY3qxLAW4?autoplay=1&mute=1&loop=1&playlist=U4IY3qxLAW4&controls=0&showinfo=0&rel=0&modestbranding=1&iv_load_policy=3&disablekb=1&playsinline=1";
 
@@ -672,7 +682,7 @@ const BIO_TAGLINE = "Based in Winnipeg. Working everywhere.";
 <!-- Work -->
 <section id="work">
   <div class="container">
-    <span class="section-label section-label--work">Selected Work</span>
+    <h2 class="section-label section-label--work">Selected Work</h2>
     <div class="project-grid" id="projectGrid">
       <!-- injected by JS -->
     </div>
@@ -682,7 +692,7 @@ const BIO_TAGLINE = "Based in Winnipeg. Working everywhere.";
 <!-- Bio -->
 <section id="bio">
   <div class="container">
-    <span class="section-label">About</span>
+    <h2 class="section-label">About</h2>
     <div class="bio-grid">
 
       <!-- Photo — swap src to your own image -->
@@ -757,7 +767,6 @@ const BIO_TAGLINE = "Based in Winnipeg. Working everywhere.";
     video.muted = true;
     video.loop = true;
     video.playsInline = true;
-    video.setAttribute('playsinline', '');
     reelWrapper.appendChild(video);
 
   } else if (DEMO_REEL_EMBED_URL) {
@@ -789,7 +798,7 @@ const BIO_TAGLINE = "Based in Winnipeg. Working everywhere.";
 
     card.innerHTML = `
       <div class="project-thumb">
-        <img src="${p.thumb}" alt="${p.title}" loading="lazy" />
+        <img src="${p.thumb}" alt="${p.title} – ${p.client}" loading="lazy" />
         <div class="thumb-overlay" aria-hidden="true">
           <div class="thumb-chevron">
             <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
@@ -799,7 +808,7 @@ const BIO_TAGLINE = "Based in Winnipeg. Working everywhere.";
         </div>
       </div>
       <div class="card-meta">
-        <div class="project-title">${p.title}</div>
+        <h3 class="project-title">${p.title}</h3>
         ${p.client ? `<div class="card-client-label">${p.client}</div>` : ''}
       </div>
     `;
@@ -812,7 +821,7 @@ const BIO_TAGLINE = "Based in Winnipeg. Working everywhere.";
   /* ── Bio photo ────────────────────────────────── */
   const bioPhoto = document.getElementById('bioPhoto');
   if (BIO_PHOTO_URL) {
-    bioPhoto.innerHTML = `<img src="${BIO_PHOTO_URL}" alt="Josh Kjarsgaard" />`;
+    bioPhoto.innerHTML = `<img src="${BIO_PHOTO_URL}" alt="Josh Kjarsgaard, video producer and filmmaker based in Winnipeg, Manitoba" />`;
   } else {
     bioPhoto.innerHTML = `
       <div class="bio-photo-placeholder">
@@ -888,7 +897,6 @@ const BIO_TAGLINE = "Based in Winnipeg. Working everywhere.";
         video.autoplay  = true;
         video.controls  = true;
         video.playsInline = true;
-        video.setAttribute('playsinline', '');
         modalWrap.appendChild(video);
       } else {
         const iframe = document.createElement('iframe');
