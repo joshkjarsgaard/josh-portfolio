@@ -358,6 +358,18 @@
       font-variant: small-caps;
       color: var(--muted);
       margin-top: 0.15rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.1rem;
+    }
+
+    .modal-roles-note {
+      font-size: 0.65rem;
+      letter-spacing: 0.06em;
+      text-transform: none;
+      font-variant: normal;
+      color: var(--muted);
+      opacity: 0.7;
     }
 
     .modal-description {
@@ -557,12 +569,13 @@ const PROJECTS = [
     url:         "https://youtu.be/zbXD5jb1lmQ"
   },
   {
-    title:       "The Road Back",
-    client:      "Winnipeg Blue Bombers",
-    roles:       "Director, Cinematographer, Editor",
-    description: "Brandon Alexander, safety for the Winnipeg Blue Bombers, faced one of the toughest challenges of his career, tearing his ACL in the Grey Cup. This video follows his gruelling journey of rehab, resilience, and determination as he battles setbacks, pushes through pain, and fights to return to the field.",
-    thumb:       "https://img.youtube.com/vi/f0Gk2rlYQRY/maxresdefault.jpg",
-    url:         "https://youtu.be/f0Gk2rlYQRY"
+    title:       "Rhythms of the Land",
+    client:      "Government of Canada",
+    roles:       "Contributing Cinematographer, Lighting Director",
+    note:        "Performances 2, 6, 10, 12, and 13",
+    description: "An award-winning documentary exploring indigenous music and language across Canada. Produced by the Government of Canada, this feature length film follows musicians and knowledge keepers from communities across the country, celebrating the richness and resilience of indigenous culture through the universal language of music.",
+    thumb:       "https://img.youtube.com/vi/NEsH19UqVbc/maxresdefault.jpg",
+    url:         "https://www.youtube.com/watch?v=NEsH19UqVbc"
   },
   {
     title:       "Friends Don't Let Friends Wear Green",
@@ -610,6 +623,7 @@ const BIO_PHOTO_URL = "Josh K.-1.JPG";
 const BIO = [
   "I have been telling stories for as long as I can remember. That instinct eventually led me to film production at the University of Winnipeg and Creative Communications at Red River College, and from there into a career doing it professionally.",
   "Since graduating, I've worked across nearly every format the industry has to offer. TV commercials, award-winning documentary projects, pro sports, brand films, social content, and everything in between. I now lead all video production for one of Canada's top sports franchises as Senior Manager of Creative Content, overseeing content for the team's channels, corporate partners, and community initiatives, while running my own production company on the side.",
+  "On the freelance side I work with brands, agencies, and organizations of all sizes on social content, campaign videos, and everything in between.",
   "My work spans national brands, community organizations, and long-form storytelling. Most recently I served as a contributing cinematographer on Rhythms of the Land, an award-winning documentary exploring indigenous music and language across Canada."
 ];
 
@@ -628,7 +642,7 @@ const BIO_TAGLINE = "Based in Winnipeg. Working everywhere.";
       <h1 class="header-name">
         Josh<br><span>Kjarsgaard</span>
       </h1>
-      <p class="header-descriptor">Corporate. Commercial. Documentary.</p>
+      <p class="header-descriptor">Video content production for Brands and Organizations.</p>
     </div>
     <div class="header-meta">
       <strong>Senior Manager, Creative Content</strong>
@@ -852,7 +866,18 @@ const BIO_TAGLINE = "Based in Winnipeg. Working everywhere.";
   function openModal(p) {
     modalTitle.textContent       = p.title       || '';
     modalClient.textContent      = p.client      || '';
-    modalRoles.textContent       = p.roles       || '';
+    modalRoles.innerHTML = '';
+    if (p.roles) {
+      const rolesLine = document.createElement('span');
+      rolesLine.textContent = p.roles;
+      modalRoles.appendChild(rolesLine);
+      if (p.note) {
+        const noteLine = document.createElement('span');
+        noteLine.className = 'modal-roles-note';
+        noteLine.textContent = p.note;
+        modalRoles.appendChild(noteLine);
+      }
+    }
     modalDescription.textContent = p.description || '';
 
     const src = toEmbedUrl(p.url);
