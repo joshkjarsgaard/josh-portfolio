@@ -204,8 +204,7 @@
       filter: brightness(0.8);
     }
 
-    .project-card:hover .project-thumb img,
-    .project-card.open .project-thumb img {
+    .project-card:hover .project-thumb img {
       transform: scale(1.05);
       filter: brightness(1);
     }
@@ -256,85 +255,6 @@
       letter-spacing: 0.04em;
     }
 
-    /* ── Card drawer ────────────────────────────────── */
-    .card-drawer {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-                  opacity 0.3s ease;
-      opacity: 0;
-    }
-
-    .project-card.open .card-drawer {
-      max-height: 400px;
-      opacity: 1;
-    }
-
-    .card-drawer-inner {
-      padding: 1rem 0 0.75rem;
-      border-top: 1px solid var(--border);
-      display: flex;
-      flex-direction: column;
-      gap: 0.6rem;
-    }
-
-    .card-drawer-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-    }
-
-    .card-roles {
-      font-size: 0.72rem;
-      color: var(--accent);
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      font-weight: 600;
-    }
-
-    .card-close-btn {
-      flex-shrink: 0;
-      background: none;
-      border: 1px solid var(--border);
-      color: var(--muted);
-      cursor: pointer;
-      width: 28px;
-      height: 28px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: border-color 0.2s, color 0.2s;
-      padding: 0;
-    }
-
-    .card-close-btn:hover { border-color: var(--muted); color: var(--text); }
-
-    .card-description {
-      font-size: clamp(0.78rem, 1.1vw, 0.88rem);
-      color: #aaa;
-      line-height: 1.65;
-    }
-
-    .card-watch-btn {
-      align-self: flex-start;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.45rem;
-      background: none;
-      border: 1px solid var(--border);
-      color: var(--muted);
-      font-size: 0.72rem;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      padding: 0.55em 1.1em;
-      cursor: pointer;
-      transition: border-color 0.2s, color 0.2s;
-      margin-top: 0.25rem;
-    }
-
-    .card-watch-btn:hover { border-color: var(--accent); color: var(--accent); }
 
     /* ── Lightbox modal ─────────────────────────────── */
     .modal {
@@ -348,6 +268,7 @@
       opacity: 0;
       pointer-events: none;
       transition: opacity 0.25s ease;
+      overflow-y: auto;
     }
 
     .modal.open {
@@ -356,7 +277,7 @@
     }
 
     .modal-backdrop {
-      position: absolute;
+      position: fixed;
       inset: 0;
       background: rgba(0, 0, 0, 0.92);
     }
@@ -365,37 +286,19 @@
       position: relative;
       z-index: 1;
       width: 100%;
-      /* Stay within 90% of either dimension, maintaining 16:9 */
-      max-width: min(90vw, calc(90vh * 16 / 9));
+      max-width: min(88vw, calc(82vh * 16 / 9));
       display: flex;
       flex-direction: column;
-      gap: 0.85rem;
+      gap: 0;
     }
 
-    .modal-header {
+    .modal-close-row {
       display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 1rem;
-    }
-
-    .modal-meta { display: flex; flex-direction: column; gap: 0.2rem; }
-
-    .modal-title {
-      font-size: clamp(0.95rem, 1.8vw, 1.2rem);
-      font-weight: 600;
-      color: var(--text);
-      line-height: 1.25;
-    }
-
-    .modal-client {
-      font-size: 0.75rem;
-      color: var(--muted);
-      letter-spacing: 0.04em;
+      justify-content: flex-end;
+      margin-bottom: 0.5rem;
     }
 
     .modal-close {
-      flex-shrink: 0;
       background: none;
       border: 1px solid var(--border);
       color: var(--muted);
@@ -426,6 +329,42 @@
       width: 100%;
       height: 100%;
       border: none;
+    }
+
+    .modal-info {
+      padding: 1rem 0 0.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+
+    .modal-title {
+      font-size: clamp(0.95rem, 1.8vw, 1.15rem);
+      font-weight: 600;
+      color: var(--accent);
+      line-height: 1.25;
+    }
+
+    .modal-client {
+      font-size: 0.75rem;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+    }
+
+    .modal-roles {
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-variant: small-caps;
+      color: var(--muted);
+      margin-top: 0.15rem;
+    }
+
+    .modal-description {
+      font-size: clamp(0.8rem, 1.2vw, 0.9rem);
+      color: var(--text);
+      line-height: 1.7;
+      margin-top: 0.25rem;
     }
 
     /* ── Bio ────────────────────────────────────────── */
@@ -626,12 +565,12 @@ const PROJECTS = [
     url:         "https://youtu.be/f0Gk2rlYQRY"
   },
   {
-    title:       "Playoff Power Pose",
+    title:       "Friends Don't Let Friends Wear Green",
     client:      "Winnipeg Blue Bombers",
-    roles:       "Director, Cinematographer, Production Designer",
-    description: "To build excitement for the playoffs and Grey Cup, we created a custom set to showcase star Winnipeg Blue Bombers players in their game-day jersey combinations. Using a fog machine, snow special effects, and dramatic lighting, we crafted an intense cinematic look that captures the energy and anticipation of the postseason.",
-    thumb:       "https://img.youtube.com/vi/z_LRd7VuOq8/maxresdefault.jpg",
-    url:         "https://youtu.be/z_LRd7VuOq8"
+    roles:       "Director, Cinematographer",
+    description: "The second instalment of the Friends Don't Let Friends campaign. Building on the momentum of the first spot, this follow up keeps the humor and urgency dialed up, reminding fans that when it comes to game day, there is only one colour worth wearing. Another playful yet pointed piece designed to fire up the fanbase and drive ticket sales heading into rivalry week.",
+    thumb:       "https://img.youtube.com/vi/nQmhALoxzgc/maxresdefault.jpg",
+    url:         "https://youtu.be/nQmhALoxzgc"
   },
   {
     title:       "Jersey Patch Sponsor Announcement",
@@ -766,11 +705,7 @@ const BIO_TAGLINE = "Based in Winnipeg. Working everywhere.";
 <div id="videoModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
   <div class="modal-backdrop" id="modalBackdrop"></div>
   <div class="modal-content">
-    <div class="modal-header">
-      <div class="modal-meta">
-        <div class="modal-title" id="modalTitle"></div>
-        <div class="modal-client" id="modalClient"></div>
-      </div>
+    <div class="modal-close-row">
       <button class="modal-close" id="modalClose" aria-label="Close video">
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
           <path d="M1 1l12 12M13 1L1 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
@@ -779,6 +714,12 @@ const BIO_TAGLINE = "Based in Winnipeg. Working everywhere.";
     </div>
     <div class="modal-video-wrap" id="modalVideoWrap">
       <!-- video injected on open, removed on close -->
+    </div>
+    <div class="modal-info">
+      <div class="modal-title" id="modalTitle"></div>
+      <div class="modal-client" id="modalClient"></div>
+      <div class="modal-roles" id="modalRoles"></div>
+      <div class="modal-description" id="modalDescription"></div>
     </div>
   </div>
 </div>
@@ -830,67 +771,26 @@ const BIO_TAGLINE = "Based in Winnipeg. Working everywhere.";
   PROJECTS.forEach(p => {
     const card = document.createElement('div');
     card.className = 'project-card reveal';
+    card.style.cursor = 'pointer';
 
     card.innerHTML = `
-      <div class="card-header">
-        <div class="project-thumb">
-          <img src="${p.thumb}" alt="${p.title}" loading="lazy" />
-          <div class="thumb-overlay" aria-hidden="true">
-            <div class="thumb-chevron">
-              <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-                <path d="M5 3l11 6-11 6V3z" fill="#fff"/>
-              </svg>
-            </div>
+      <div class="project-thumb">
+        <img src="${p.thumb}" alt="${p.title}" loading="lazy" />
+        <div class="thumb-overlay" aria-hidden="true">
+          <div class="thumb-chevron">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+              <path d="M5 3l11 6-11 6V3z" fill="#fff"/>
+            </svg>
           </div>
-        </div>
-        <div class="card-meta">
-          <div class="project-title">${p.title}</div>
-          ${p.client ? `<div class="card-client-label">${p.client}</div>` : ''}
         </div>
       </div>
-      <div class="card-drawer">
-        <div class="card-drawer-inner">
-          <div class="card-drawer-header">
-            ${p.roles ? `<div class="card-roles">${p.roles}</div>` : '<div></div>'}
-            <button class="card-close-btn" aria-label="Collapse">
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-                <path d="M1 1l10 10M11 1L1 11" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
-              </svg>
-            </button>
-          </div>
-          ${p.description ? `<div class="card-description">${p.description}</div>` : ''}
-          ${p.url ? `<button class="card-watch-btn">
-            <svg width="11" height="11" viewBox="0 0 11 11" fill="none" aria-hidden="true">
-              <path d="M2 1l8 4.5L2 10V1z" fill="currentColor"/>
-            </svg>
-            Watch
-          </button>` : ''}
-        </div>
+      <div class="card-meta">
+        <div class="project-title">${p.title}</div>
+        ${p.client ? `<div class="card-client-label">${p.client}</div>` : ''}
       </div>
     `;
 
-    const header = card.querySelector('.card-header');
-    const closeBtn = card.querySelector('.card-close-btn');
-    const watchBtn = card.querySelector('.card-watch-btn');
-
-    header.addEventListener('click', () => {
-      const isOpen = card.classList.contains('open');
-      // Close any other open card
-      document.querySelectorAll('.project-card.open').forEach(c => c.classList.remove('open'));
-      if (!isOpen) card.classList.add('open');
-    });
-
-    closeBtn.addEventListener('click', e => {
-      e.stopPropagation();
-      card.classList.remove('open');
-    });
-
-    if (watchBtn) {
-      watchBtn.addEventListener('click', e => {
-        e.stopPropagation();
-        openModal(p);
-      });
-    }
+    card.addEventListener('click', () => openModal(p));
 
     grid.appendChild(card);
   });
@@ -922,10 +822,12 @@ const BIO_TAGLINE = "Based in Winnipeg. Working everywhere.";
   document.getElementById('bioTagline').textContent = BIO_TAGLINE;
 
   /* ── Modal ───────────────────────────────────── */
-  const modal        = document.getElementById('videoModal');
-  const modalTitle   = document.getElementById('modalTitle');
-  const modalClient  = document.getElementById('modalClient');
-  const modalWrap    = document.getElementById('modalVideoWrap');
+  const modal             = document.getElementById('videoModal');
+  const modalTitle        = document.getElementById('modalTitle');
+  const modalClient       = document.getElementById('modalClient');
+  const modalRoles        = document.getElementById('modalRoles');
+  const modalDescription  = document.getElementById('modalDescription');
+  const modalWrap         = document.getElementById('modalVideoWrap');
 
   function toEmbedUrl(url) {
     if (!url) return null;
@@ -948,8 +850,10 @@ const BIO_TAGLINE = "Based in Winnipeg. Working everywhere.";
   }
 
   function openModal(p) {
-    modalTitle.textContent  = p.title  || '';
-    modalClient.textContent = p.client || '';
+    modalTitle.textContent       = p.title       || '';
+    modalClient.textContent      = p.client      || '';
+    modalRoles.textContent       = p.roles       || '';
+    modalDescription.textContent = p.description || '';
 
     const src = toEmbedUrl(p.url);
     if (src) {
