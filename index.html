@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Josh Kjarsgaard — Video Producer</title>
+  <meta name="description" content="Josh Kjarsgaard is a Winnipeg-based video producer and Senior Manager of Creative Content at the Winnipeg Football Club." />
+
+  <style>
+    /* ── Reset & base ───────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0d0d0d;
+      --surface:   #161616;
+      --border:    #242424;
+      --text:      #e8e8e8;
+      --muted:     #888;
+      --accent:    #D4A847;
+      --font:      'Inter', 'Helvetica Neue', Arial, sans-serif;
+      --max:       1100px;
+      --gap:       clamp(1.5rem, 4vw, 2.5rem);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      font-size: clamp(15px, 1.6vw, 17px);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+    /* ── Layout helpers ─────────────────────────────── */
+    .container {
+      width: min(var(--max), 100%);
+      margin-inline: auto;
+      padding-inline: clamp(1.25rem, 5vw, 2.5rem);
+    }
+
+    section { padding-block: clamp(4rem, 8vw, 7rem); }
+
+    /* ── Header ─────────────────────────────────────── */
+    header {
+      padding-block: clamp(1.25rem, 2.5vw, 2rem) clamp(1rem, 1.5vw, 1.5rem);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .header-name {
+      font-size: clamp(2.2rem, 6vw, 4.2rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.05;
+    }
+
+    .header-name span {
+      display: block;
+      color: var(--text);
+    }
+
+    .header-descriptor {
+      margin-top: 1rem;
+      font-size: clamp(0.8rem, 1.2vw, 0.92rem);
+      font-weight: 400;
+      color: var(--muted);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .header-meta {
+      text-align: right;
+      color: var(--muted);
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      line-height: 1.8;
+    }
+
+    .header-meta strong {
+      display: block;
+      color: var(--text);
+      font-size: 0.92rem;
+      letter-spacing: 0.04em;
+    }
+
+    /* ── Section labels ─────────────────────────────── */
+    .section-label {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.5rem;
+    }
+
+    .section-label--work {
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      text-transform: none;
+    }
+
+    /* ── Demo reel — full bleed ─────────────────────── */
+    #reel {
+      padding: 0;
+      margin: 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .reel-wrapper {
+      position: relative;
+      width: 100%;
+      /* Never taller than 52vh so header + reel + CTA button all fit above the fold */
+      height: min(56.25vw, 52vh);
+      background: #000;
+      overflow: hidden;
+    }
+
+    .reel-wrapper video,
+    .reel-wrapper iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+      /* Scale up slightly so letterbox bars from some sources stay hidden */
+      transform: scale(1.01);
+    }
+
+    .reel-placeholder {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      color: var(--muted);
+      font-size: 0.85rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      background: var(--surface);
+    }
+
+    .play-icon {
+      width: 64px;
+      height: 64px;
+      border: 2px solid var(--accent);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .play-icon svg { margin-left: 4px; }
+
+    /* ── Project grid ───────────────────────────────── */
+    #work { border-bottom: 1px solid var(--border); }
+
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: clamp(2px, 0.4vw, 4px);
+    }
+
+    /* Card is a div — the link lives inside the drawer */
+    .project-card {
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+    }
+
+    .card-header {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .project-thumb {
+      position: relative;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      background: var(--surface);
+    }
+
+    .project-thumb img {
+      transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                  filter 0.35s ease;
+      filter: brightness(0.8);
+    }
+
+    .project-card:hover .project-thumb img,
+    .project-card.open .project-thumb img {
+      transform: scale(1.05);
+      filter: brightness(1);
+    }
+
+    .thumb-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s;
+      background: rgba(0,0,0,0.25);
+    }
+
+    .project-card:hover .thumb-overlay { opacity: 1; }
+
+    .thumb-chevron {
+      width: 40px;
+      height: 40px;
+      border: 1.5px solid rgba(255,255,255,0.6);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .thumb-chevron svg { transition: transform 0.2s ease; }
+    .project-card:hover .thumb-chevron svg { transform: scale(1.15); }
+
+    .card-meta {
+      padding: 0.7rem 0 0.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+
+    .project-title {
+      font-size: clamp(0.88rem, 1.2vw, 1rem);
+      font-weight: 500;
+      line-height: 1.25;
+      color: var(--accent);
+    }
+
+    .card-client-label {
+      font-size: 0.72rem;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+    }
+
+    /* ── Lightbox modal ─────────────────────────────── */
+    .modal {
+      position: fixed;
+      inset: 0;
+      z-index: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: clamp(1rem, 3vw, 2rem);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+
+    .modal.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .modal-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.92);
+    }
+
+    .modal-content {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      /* Stay within 90% of either dimension, maintaining 16:9 */
+      max-width: min(90vw, calc(90vh * 16 / 9));
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .modal-meta { display: flex; flex-direction: column; gap: 0.2rem; }
+
+    .modal-title {
+      font-size: clamp(0.95rem, 1.8vw, 1.2rem);
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.25;
+    }
+
+    .modal-client {
+      font-size: 0.75rem;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+    }
+
+    .modal-close {
+      flex-shrink: 0;
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      cursor: pointer;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: border-color 0.2s, color 0.2s;
+      padding: 0;
+    }
+
+    .modal-close:hover { border-color: var(--muted); color: var(--text); }
+
+    .modal-video-wrap {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #000;
+      overflow: hidden;
+    }
+
+    .modal-video-wrap video,
+    .modal-video-wrap iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    /* ── Bio ────────────────────────────────────────── */
+    #bio { border-bottom: 1px solid var(--border); }
+
+    .bio-grid {
+      display: grid;
+      grid-template-columns: 340px 1fr;
+      gap: clamp(2.5rem, 6vw, 5rem);
+      align-items: start;
+    }
+
+    .bio-photo-wrap {
+      position: relative;
+    }
+
+    .bio-photo {
+      width: 100%;
+      aspect-ratio: 2 / 3;
+      overflow: hidden;
+      background: var(--surface);
+      border: 1px solid var(--border);
+    }
+
+    .bio-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+    }
+
+    .bio-photo-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .bio-right {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .bio-tagline {
+      font-size: clamp(0.88rem, 1.3vw, 0.98rem);
+      font-weight: 400;
+      color: var(--accent);
+      letter-spacing: 0.02em;
+      margin-top: 1.25rem;
+    }
+
+    .bio-text p + p { margin-top: 1em; }
+
+    .bio-text p {
+      color: #bbb;
+      font-size: clamp(0.95rem, 1.5vw, 1.05rem);
+      line-height: 1.75;
+    }
+
+    /* ── Reel CTA ───────────────────────────────────── */
+    .reel-cta {
+      padding-block: 1.25rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ── Pre-footer CTA ─────────────────────────────── */
+    .prefooter-cta {
+      border-top: 1px solid var(--border);
+      padding-block: clamp(2.5rem, 5vw, 4rem);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      text-align: center;
+    }
+
+    .prefooter-cta p {
+      font-size: 0.85rem;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: var(--accent);
+      color: #0d0d0d;
+      font-weight: 700;
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.85em 2.2em;
+      border: none;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.15s;
+    }
+
+    .btn:hover { opacity: 0.88; transform: translateY(-1px); }
+    .btn:active { transform: translateY(0); }
+
+    /* ── Footer ─────────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding-block: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .footer-name {
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .footer-name span { color: var(--accent); }
+
+    .footer-copy {
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    /* ── Scroll fade-in ─────────────────────────────── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 0.55s ease, transform 0.55s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* ── Responsive ─────────────────────────────────── */
+    @media (max-width: 720px) {
+      .bio-grid { grid-template-columns: 1fr; }
+      .bio-photo { aspect-ratio: 2 / 3; max-width: 320px; }
+    }
+
+    @media (max-width: 600px) {
+      .project-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 640px) {
+      .header-meta { text-align: left; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ─────────────────────────────────────────────────
+     SITE DATA — edit here, never touch the layout code
+──────────────────────────────────────────────────── -->
+<script>
+const PROJECTS = [
+  {
+    title:       "Friends Don't Let Friends Miss the Tailgate",
+    client:      "Winnipeg Blue Bombers",
+    roles:       "Director, Cinematographer",
+    description: "A playful FOMO-driven ad featuring Willie Jefferson in a surprise role, part genie, part guardian angel. The spot follows a fan dozing off before game time, only to be jolted awake by Willie himself. Blending humor with urgency, this piece launched the campaign with a bold message: real fans don't let their friends miss a game.",
+    thumb:       "https://img.youtube.com/vi/Ioc20BDjTA4/maxresdefault.jpg",
+    url:         "https://youtu.be/Ioc20BDjTA4"
+  },
+  {
+    title:       "Part of the Team",
+    client:      "Duron Equipment",
+    roles:       "Director, Cinematographer",
+    description: "A national commercial for Duron Equipment. Shot to feel gritty and grounded, using the concept of preparation to connect football and heavy equipment. From concept development through directing and managing the shoot, the final piece delivered a polished commercial designed to connect with audiences and elevate the brand.",
+    thumb:       "https://img.youtube.com/vi/zbXD5jb1lmQ/maxresdefault.jpg",
+    url:         "https://youtu.be/zbXD5jb1lmQ"
+  },
+  {
+    title:       "The Road Back",
+    client:      "Winnipeg Blue Bombers",
+    roles:       "Director, Cinematographer, Editor",
+    description: "Brandon Alexander, safety for the Winnipeg Blue Bombers, faced one of the toughest challenges of his career, tearing his ACL in the Grey Cup. This video follows his gruelling journey of rehab, resilience, and determination as he battles setbacks, pushes through pain, and fights to return to the field.",
+    thumb:       "https://img.youtube.com/vi/f0Gk2rlYQRY/maxresdefault.jpg",
+    url:         "https://youtu.be/f0Gk2rlYQRY"
+  },
+  {
+    title:       "Playoff Power Pose",
+    client:      "Winnipeg Blue Bombers",
+    roles:       "Director, Cinematographer, Production Designer",
+    description: "To build excitement for the playoffs and Grey Cup, we created a custom set to showcase star Winnipeg Blue Bombers players in their game-day jersey combinations. Using a fog machine, snow special effects, and dramatic lighting, we crafted an intense cinematic look that captures the energy and anticipation of the postseason.",
+    thumb:       "https://img.youtube.com/vi/z_LRd7VuOq8/maxresdefault.jpg",
+    url:         "https://youtu.be/z_LRd7VuOq8"
+  },
+  {
+    title:       "Jersey Patch Sponsor Announcement",
+    client:      "Access Credit Union",
+    roles:       "Director, Cinematographer, Editor",
+    description: "The announcement video for Access Credit Union as the official jersey patch sponsor of the Winnipeg Blue Bombers captures the intricate process of the patch being hand-stitched onto each jersey. Cinematic visuals and a storytelling approach highlight the craftsmanship and pride behind every jersey.",
+    thumb:       "https://img.youtube.com/vi/F8VaJHr4BJI/maxresdefault.jpg",
+    url:         "https://youtu.be/F8VaJHr4BJI"
+  },
+  {
+    title:       "Princess Auto Stadium Turf Replacement",
+    client:      "FieldTurf",
+    roles:       "Director, Cinematographer, Editor",
+    description: "This project documented the turf replacement and installation process at Princess Auto Stadium, showcasing the transformation to the newest playing surface in the league. Time-lapse footage and behind-the-scenes moments highlight the club's commitment to providing top-tier facilities.",
+    thumb:       "https://img.youtube.com/vi/h68BkuKA5UQ/maxresdefault.jpg",
+    url:         "https://youtu.be/h68BkuKA5UQ"
+  }
+];
+
+// ── Demo reel ─────────────────────────────────────────
+// Option A — direct video file (mp4, webm). Autoplay/mute/loop handled automatically.
+//   DEMO_REEL_VIDEO_URL = "https://example.com/your-reel.mp4"
+// Option B — YouTube embed URL. Add your video ID; loop & mute params are appended automatically.
+//   DEMO_REEL_EMBED_URL = "https://www.youtube.com/embed/YOUR_VIDEO_ID"
+// Set the one you're using; leave the other as "".
+const DEMO_REEL_VIDEO_URL = "";
+const DEMO_REEL_EMBED_URL = "https://www.youtube.com/embed/U4IY3qxLAW4?autoplay=1&mute=1&loop=1&playlist=U4IY3qxLAW4&controls=0&playsinline=1";
+
+// ── Contact ───────────────────────────────────────────
+const CONTACT_URL = "mailto:kjarsgaardj@gmail.com";
+
+// ── Bio photo ─────────────────────────────────────────
+// Swap in your own image path or URL. Recommended: portrait orientation, min 680×900px.
+const BIO_PHOTO_URL = "Josh K.-1.jpeg";
+
+// ── Bio ───────────────────────────────────────────────
+const BIO = [
+  "I have been telling stories for as long as I can remember. That instinct eventually led me to film production at the University of Winnipeg and Creative Communications at Red River College, and from there into a career doing it professionally.",
+  "Since graduating, I've worked across nearly every format the industry has to offer. TV commercials, award-winning documentary projects, pro sports, brand films, social content, and everything in between. I now lead all video production for one of Canada's top sports franchises as Senior Manager of Creative Content, overseeing content for the team's channels, corporate partners, and community initiatives, while running my own production company on the side.",
+  "My work spans national brands, community organizations, and long-form storytelling. Most recently I served as a contributing cinematographer on Rhythms of the Land, an award-winning documentary exploring indigenous music and language across Canada."
+];
+
+const BIO_TAGLINE = "Based in Winnipeg. Working everywhere.";
+
+</script>
+
+<!-- ─────────────────────────────────────────────────
+     MARKUP
+──────────────────────────────────────────────────── -->
+
+<!-- Header -->
+<header>
+  <div class="container header-inner">
+    <div>
+      <h1 class="header-name">
+        Josh<br><span>Kjarsgaard</span>
+      </h1>
+      <p class="header-descriptor">Corporate. Commercial. Documentary.</p>
+    </div>
+    <div class="header-meta">
+      <strong>Senior Manager, Creative Content</strong>
+      Winnipeg Football Club<br>
+      Winnipeg, Manitoba
+    </div>
+  </div>
+</header>
+
+<!-- Demo Reel — full bleed -->
+<section id="reel">
+  <div class="reel-wrapper" id="reelWrapper">
+    <!-- injected by JS -->
+  </div>
+</section>
+
+<!-- Reel CTA -->
+<div class="reel-cta">
+  <a class="btn" href="https://form.jotform.com/251664555901056" target="_blank" rel="noopener noreferrer">
+    Start Your Project
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+      <path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </a>
+</div>
+
+<!-- Work -->
+<section id="work">
+  <div class="container">
+    <span class="section-label section-label--work">Selected Work</span>
+    <div class="project-grid" id="projectGrid">
+      <!-- injected by JS -->
+    </div>
+  </div>
+</section>
+
+<!-- Bio -->
+<section id="bio">
+  <div class="container">
+    <span class="section-label">About</span>
+    <div class="bio-grid">
+
+      <!-- Photo — swap src to your own image -->
+      <div class="bio-photo-wrap reveal">
+        <div class="bio-photo" id="bioPhoto">
+          <!-- injected by JS -->
+        </div>
+      </div>
+
+      <!-- Text -->
+      <div class="bio-right">
+        <div class="bio-text" id="bioText">
+          <!-- injected by JS -->
+        </div>
+        <p class="bio-tagline reveal" id="bioTagline"></p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Pre-footer CTA -->
+<div class="prefooter-cta">
+  <p>Ready to bring your project to life?</p>
+  <a class="btn" href="https://form.jotform.com/251664555901056" target="_blank" rel="noopener noreferrer">
+    Start Your Project
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+      <path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </a>
+</div>
+
+<!-- Lightbox modal -->
+<div id="videoModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal-backdrop" id="modalBackdrop"></div>
+  <div class="modal-content">
+    <div class="modal-header">
+      <div class="modal-meta">
+        <div class="modal-title" id="modalTitle"></div>
+        <div class="modal-client" id="modalClient"></div>
+      </div>
+      <button class="modal-close" id="modalClose" aria-label="Close video">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+          <path d="M1 1l12 12M13 1L1 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+    <div class="modal-video-wrap" id="modalVideoWrap">
+      <!-- video injected on open, removed on close -->
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer>
+  <div class="container" style="display:contents">
+    <span class="footer-name">Josh <span>Kjarsgaard</span></span>
+    <span class="footer-copy">© <span id="year"></span> All rights reserved.</span>
+  </div>
+</footer>
+
+<script>
+  /* ── Demo reel ────────────────────────────────── */
+  const reelWrapper = document.getElementById('reelWrapper');
+
+  if (DEMO_REEL_VIDEO_URL) {
+    const video = document.createElement('video');
+    video.src = DEMO_REEL_VIDEO_URL;
+    video.autoplay = true;
+    video.muted = true;
+    video.loop = true;
+    video.playsInline = true;
+    video.setAttribute('playsinline', '');
+    reelWrapper.appendChild(video);
+
+  } else if (DEMO_REEL_EMBED_URL) {
+    const iframe = document.createElement('iframe');
+    iframe.src = DEMO_REEL_EMBED_URL;
+    iframe.title = "Josh Kjarsgaard — Demo Reel";
+    iframe.allow = "autoplay; fullscreen";
+    reelWrapper.appendChild(iframe);
+
+  } else {
+    reelWrapper.innerHTML = `
+      <div class="reel-placeholder">
+        <div class="play-icon">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+            <path d="M7 4l12 7-12 7V4z" fill="currentColor"/>
+          </svg>
+        </div>
+        <span>Demo reel coming soon</span>
+      </div>`;
+  }
+
+  /* ── Project grid ─────────────────────────────── */
+  const grid = document.getElementById('projectGrid');
+
+  PROJECTS.forEach(p => {
+    const card = document.createElement('div');
+    card.className = 'project-card reveal';
+
+    card.innerHTML = `
+      <div class="card-header">
+        <div class="project-thumb">
+          <img src="${p.thumb}" alt="${p.title}" loading="lazy" />
+          <div class="thumb-overlay" aria-hidden="true">
+            <div class="thumb-chevron">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                <path d="M5 3l11 6-11 6V3z" fill="#fff"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div class="card-meta">
+          <div class="project-title">${p.title}</div>
+          ${p.client ? `<div class="card-client-label">${p.client}</div>` : ''}
+        </div>
+      </div>
+    `;
+
+    card.addEventListener('click', () => openModal(p));
+    grid.appendChild(card);
+  });
+
+  /* ── Bio photo ────────────────────────────────── */
+  const bioPhoto = document.getElementById('bioPhoto');
+  if (BIO_PHOTO_URL) {
+    bioPhoto.innerHTML = `<img src="${BIO_PHOTO_URL}" alt="Josh Kjarsgaard" />`;
+  } else {
+    bioPhoto.innerHTML = `
+      <div class="bio-photo-placeholder">
+        <svg width="36" height="36" viewBox="0 0 36 36" fill="none" aria-hidden="true">
+          <circle cx="18" cy="13" r="6" stroke="#555" stroke-width="1.5"/>
+          <path d="M4 32c0-7.732 6.268-14 14-14s14 6.268 14 14" stroke="#555" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <span>Your photo here</span>
+      </div>`;
+  }
+
+  /* ── Bio text ─────────────────────────────────── */
+  const bioText = document.getElementById('bioText');
+  BIO.forEach(para => {
+    const p = document.createElement('p');
+    p.className = 'reveal';
+    p.textContent = para;
+    bioText.appendChild(p);
+  });
+
+  document.getElementById('bioTagline').textContent = BIO_TAGLINE;
+
+  /* ── Modal ───────────────────────────────────── */
+  const modal        = document.getElementById('videoModal');
+  const modalTitle   = document.getElementById('modalTitle');
+  const modalClient  = document.getElementById('modalClient');
+  const modalWrap    = document.getElementById('modalVideoWrap');
+
+  function toEmbedUrl(url) {
+    if (!url) return null;
+    // Already an embed URL
+    if (url.includes('youtube.com/embed/')) {
+      return url + (url.includes('?') ? '&' : '?') + 'autoplay=1&rel=0';
+    }
+    // youtu.be short link
+    const short = url.match(/youtu\.be\/([^?&]+)/);
+    if (short) return `https://www.youtube.com/embed/${short[1]}?autoplay=1&rel=0`;
+    // youtube.com/watch?v=
+    const watch = url.match(/[?&]v=([^?&]+)/);
+    if (watch) return `https://www.youtube.com/embed/${watch[1]}?autoplay=1&rel=0`;
+    // Direct video file — return as-is
+    return url;
+  }
+
+  function isDirectVideo(url) {
+    return /\.(mp4|webm|ogg|mov)(\?|$)/i.test(url);
+  }
+
+  function openModal(p) {
+    modalTitle.textContent  = p.title  || '';
+    modalClient.textContent = p.client || '';
+
+    const src = toEmbedUrl(p.url);
+    if (src) {
+      if (isDirectVideo(p.url)) {
+        const video = document.createElement('video');
+        video.src       = p.url;
+        video.autoplay  = true;
+        video.controls  = true;
+        video.playsInline = true;
+        video.setAttribute('playsinline', '');
+        modalWrap.appendChild(video);
+      } else {
+        const iframe = document.createElement('iframe');
+        iframe.src   = src;
+        iframe.title = p.title || 'Video';
+        iframe.allow = 'autoplay; fullscreen';
+        iframe.setAttribute('allowfullscreen', '');
+        modalWrap.appendChild(iframe);
+      }
+    }
+
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    modal.classList.remove('open');
+    document.body.style.overflow = '';
+    // Remove the video/iframe to stop playback
+    while (modalWrap.firstChild) modalWrap.removeChild(modalWrap.firstChild);
+  }
+
+  document.getElementById('modalClose').addEventListener('click', closeModal);
+  document.getElementById('modalBackdrop').addEventListener('click', closeModal);
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+  /* ── Footer year ──────────────────────────────── */
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  /* ── Scroll reveal ────────────────────────────── */
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
