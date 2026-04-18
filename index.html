@@ -7,6 +7,7 @@
   <meta name="description" content="Josh Kjarsgaard is a Winnipeg-based video producer, director, and cinematographer available for commercial, social, and documentary projects across Manitoba and Canada." />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://joshkjarsgaard.com" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 fill=%22%230d0d0d%22/%3E%3Ctext x=%2216%22 y=%2223%22 text-anchor=%22middle%22 font-family=%22Arial%2Csans-serif%22 font-weight=%22700%22 font-size=%2215%22 fill=%22%23D4A847%22%3EJK%3C/text%3E%3C/svg%3E" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://joshkjarsgaard.com" />
   <meta property="og:title" content="Josh Kjarsgaard - Video Producer and Filmmaker in Winnipeg, Manitoba" />
@@ -532,6 +533,26 @@
       color: var(--muted);
     }
 
+    .social-icons {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .social-icons a {
+      color: #555;
+      display: flex;
+      align-items: center;
+      transition: color 0.2s;
+    }
+
+    .social-icons a:hover { color: var(--accent); }
+
+    .social-icons svg {
+      width: 18px;
+      height: 18px;
+    }
+
     /* ── Scroll fade-in ─────────────────────────────── */
     .reveal {
       opacity: 0;
@@ -752,6 +773,28 @@ const BIO_TAGLINE = "Based in Winnipeg. Working everywhere.";
 <footer>
   <div class="container" style="display:contents">
     <span class="footer-name">Josh <span>Kjarsgaard</span></span>
+    <nav class="social-icons" aria-label="Social links">
+      <a href="https://www.linkedin.com/in/josh-kjarsgaard-87663a197/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/>
+          <rect x="2" y="9" width="4" height="12"/>
+          <circle cx="4" cy="4" r="2"/>
+        </svg>
+      </a>
+      <a href="https://www.instagram.com/joshkjarsgaard/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+          <circle cx="12" cy="12" r="4"/>
+          <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+        </svg>
+      </a>
+      <a href="mailto:kjarsgaardj@gmail.com" aria-label="Email">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="2" y="4" width="20" height="16" rx="2"/>
+          <path d="M22 7L12 13 2 7"/>
+        </svg>
+      </a>
+    </nav>
     <span class="footer-copy">© <span id="year"></span> All rights reserved.</span>
   </div>
 </footer>
