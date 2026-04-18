@@ -143,6 +143,15 @@
       transform: scale(1.01);
     }
 
+    /* Push iframe beyond container bounds so YouTube chrome (title bar, logo) is clipped */
+    .reel-wrapper iframe {
+      inset: -60px -2px;
+      width: calc(100% + 4px);
+      height: calc(100% + 120px);
+      transform: none;
+      pointer-events: none;
+    }
+
     .reel-placeholder {
       position: absolute;
       inset: 0;
@@ -576,7 +585,7 @@ const PROJECTS = [
 //   DEMO_REEL_EMBED_URL = "https://www.youtube.com/embed/YOUR_VIDEO_ID"
 // Set the one you're using; leave the other as "".
 const DEMO_REEL_VIDEO_URL = "";
-const DEMO_REEL_EMBED_URL = "https://www.youtube.com/embed/U4IY3qxLAW4?autoplay=1&mute=1&loop=1&playlist=U4IY3qxLAW4&controls=0&playsinline=1";
+const DEMO_REEL_EMBED_URL = "https://www.youtube.com/embed/U4IY3qxLAW4?autoplay=1&mute=1&loop=1&playlist=U4IY3qxLAW4&controls=0&showinfo=0&rel=0&modestbranding=1&iv_load_policy=3&disablekb=1&playsinline=1";
 
 // ── Contact ───────────────────────────────────────────
 const CONTACT_URL = "mailto:kjarsgaardj@gmail.com";
