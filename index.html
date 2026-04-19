@@ -565,6 +565,61 @@
       transform: none;
     }
 
+    /* ── Logo scroller ──────────────────────────────── */
+    #clients {
+      padding-block: clamp(3rem, 6vw, 5rem);
+      overflow: hidden;
+    }
+
+    .clients-label {
+      text-align: center;
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      font-variant: small-caps;
+      color: var(--muted);
+      margin-bottom: clamp(1.5rem, 3vw, 2.25rem);
+    }
+
+    .logo-track-outer {
+      overflow: hidden;
+      width: 100%;
+      mask-image: linear-gradient(to right, transparent 0%, #000 8%, #000 92%, transparent 100%);
+      -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 8%, #000 92%, transparent 100%);
+    }
+
+    .logo-track {
+      display: flex;
+      align-items: center;
+      width: max-content;
+      animation: logo-scroll 45s linear infinite;
+    }
+
+    .logo-track:hover { animation-play-state: paused; }
+
+    @keyframes logo-scroll {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    .logo-item {
+      flex-shrink: 0;
+      padding-inline: clamp(2rem, 4vw, 3.5rem);
+      display: flex;
+      align-items: center;
+    }
+
+    .logo-item img {
+      height: 45px;
+      width: auto;
+      display: block;
+      filter: brightness(0) invert(1);
+      opacity: 0.75;
+      transition: opacity 0.25s;
+    }
+
+    .logo-track:hover .logo-item img { opacity: 0.9; }
+
     /* ── Responsive ─────────────────────────────────── */
     @media (max-width: 720px) {
       .bio-grid { grid-template-columns: 1fr; }
@@ -600,7 +655,7 @@ const PROJECTS = [
     title:       "Part of the Team",
     client:      "Duron Equipment",
     roles:       "Director, Cinematographer",
-    description: "A national commercial for Duron Equipment. Shot to feel gritty and grounded, using the concept of preparation to connect football and heavy equipment. From concept development through directing and managing the shoot, the final piece delivered a polished commercial designed to connect with audiences and elevate the brand.",
+    description: "I led the production of a national commercial for Duron Equipment, working closely with their team to bring the brand's vision to life. From concept development to directing and managing the shoot, I ensured the production aligned with Duron's identity and goals. The final piece, edited by Smart Rosales, delivered a polished and engaging commercial designed to connect with audiences and elevate the brand. We wanted the spot to feel gritty and grounded and we used the concept of preparation to connect the idea of football and an equipment dealership.",
     thumb:       "https://img.youtube.com/vi/zbXD5jb1lmQ/maxresdefault.jpg",
     url:         "https://youtu.be/zbXD5jb1lmQ"
   },
@@ -700,10 +755,47 @@ const BIO_TAGLINE = "Based in Winnipeg. Working everywhere.";
   </a>
 </div>
 
+<!-- Trusted By logo scroller -->
+<section id="clients">
+  <p class="clients-label">Trusted By</p>
+  <div class="logo-track-outer">
+    <div class="logo-track" aria-hidden="true">
+      <!-- set 1 -->
+      <div class="logo-item"><img src="access_credit_union.png" alt="Access Credit Union"></div>
+      <div class="logo-item"><img src="callia_flowers.png" alt="Callia Flowers"></div>
+      <div class="logo-item"><img src="cfl.png" alt="CFL"></div>
+      <div class="logo-item"><img src="egg_farmers.png" alt="Egg Farmers of Canada"></div>
+      <div class="logo-item"><img src="goodlife_fitness.png" alt="GoodLife Fitness"></div>
+      <div class="logo-item"><img src="mmf.png" alt="Manitoba Metis Federation"></div>
+      <div class="logo-item"><img src="ocil.png" alt="OCIL"></div>
+      <div class="logo-item"><img src="princess_auto.png" alt="Princess Auto"></div>
+      <div class="logo-item"><img src="servco_canada.png" alt="Servco Canada"></div>
+      <div class="logo-item"><img src="sport_manitoba.png" alt="Sport Manitoba"></div>
+      <div class="logo-item"><img src="tsn.png" alt="TSN"></div>
+      <div class="logo-item"><img src="uv_pools.png" alt="UV Pools"></div>
+      <div class="logo-item"><img src="wawanesa.png" alt="Wawanesa Insurance"></div>
+      <!-- set 2 — duplicate for seamless loop -->
+      <div class="logo-item"><img src="access_credit_union.png" alt=""></div>
+      <div class="logo-item"><img src="callia_flowers.png" alt=""></div>
+      <div class="logo-item"><img src="cfl.png" alt=""></div>
+      <div class="logo-item"><img src="egg_farmers.png" alt=""></div>
+      <div class="logo-item"><img src="goodlife_fitness.png" alt=""></div>
+      <div class="logo-item"><img src="mmf.png" alt=""></div>
+      <div class="logo-item"><img src="ocil.png" alt=""></div>
+      <div class="logo-item"><img src="princess_auto.png" alt=""></div>
+      <div class="logo-item"><img src="servco_canada.png" alt=""></div>
+      <div class="logo-item"><img src="sport_manitoba.png" alt=""></div>
+      <div class="logo-item"><img src="tsn.png" alt=""></div>
+      <div class="logo-item"><img src="uv_pools.png" alt=""></div>
+      <div class="logo-item"><img src="wawanesa.png" alt=""></div>
+    </div>
+  </div>
+</section>
+
 <!-- Work -->
 <section id="work">
   <div class="container">
-    <h2 class="section-label section-label--work">Selected Work</h2>
+    <h2 class="section-label section-label--work">Selected Cinematic Work</h2>
     <div class="project-grid" id="projectGrid">
       <!-- injected by JS -->
     </div>
@@ -713,7 +805,6 @@ const BIO_TAGLINE = "Based in Winnipeg. Working everywhere.";
 <!-- Bio -->
 <section id="bio">
   <div class="container">
-    <h2 class="section-label">About</h2>
     <div class="bio-grid">
 
       <!-- Photo — swap src to your own image -->
@@ -725,6 +816,7 @@ const BIO_TAGLINE = "Based in Winnipeg. Working everywhere.";
 
       <!-- Text -->
       <div class="bio-right">
+        <h2 class="section-label">About</h2>
         <div class="bio-text" id="bioText">
           <!-- injected by JS -->
         </div>
