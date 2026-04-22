@@ -160,6 +160,14 @@
       text-transform: uppercase;
     }
 
+    .header-location {
+      margin-top: 0.4rem;
+      font-size: clamp(0.75rem, 1.1vw, 0.85rem);
+      font-weight: 400;
+      color: var(--accent);
+      letter-spacing: 0.06em;
+    }
+
     .header-meta {
       text-align: right;
       color: var(--muted);
@@ -207,6 +215,8 @@
       height: 56.25vw;
       background: #000;
       overflow: hidden;
+      pointer-events: none;
+      cursor: default;
     }
 
     .reel-wrapper video,
@@ -716,10 +726,8 @@
       font-weight: 600;
       letter-spacing: 0.06em;
       text-transform: uppercase;
-      color: var(--muted);
+      color: #BC955C;
     }
-
-    .footer-name span { color: var(--accent); }
 
     .footer-copy {
       font-size: 0.75rem;
@@ -940,6 +948,7 @@ const BIO_TAGLINE = "Based in Winnipeg. Works anywhere.";
         Josh<br><span>Kjarsgaard</span>
       </h1>
       <p class="header-descriptor">Creative Content Producer</p>
+      <p class="header-location">Based in Winnipeg. Work Everywhere.</p>
     </div>
     <div class="header-meta">
       <strong>Senior Manager, Creative Content</strong>
@@ -1119,7 +1128,7 @@ const BIO_TAGLINE = "Based in Winnipeg. Works anywhere.";
 <!-- Footer -->
 <footer>
   <div class="container" style="display:contents">
-    <span class="footer-name">Josh <span>Kjarsgaard</span></span>
+    <span class="footer-name">Josh Kjarsgaard</span>
     <nav class="social-icons" aria-label="Social links">
       <a href="https://www.linkedin.com/in/josh-kjarsgaard-87663a197/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
         <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -1312,6 +1321,22 @@ const BIO_TAGLINE = "Based in Winnipeg. Works anywhere.";
   document.getElementById('modalClose').addEventListener('click', closeModal);
   document.getElementById('modalBackdrop').addEventListener('click', closeModal);
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && modal.classList.contains('open')) closeModal(); });
+
+  document.querySelectorAll('#site-nav a').forEach(link => {
+    link.addEventListener('click', e => {
+      if (modal.classList.contains('open')) {
+        closeModal();
+        const href = link.getAttribute('href');
+        if (href && href.startsWith('#')) {
+          e.preventDefault();
+          setTimeout(() => {
+            const target = document.querySelector(href);
+            if (target) target.scrollIntoView({ behavior: 'smooth' });
+          }, 50);
+        }
+      }
+    });
+  });
 
   /* ── Photography carousel ─────────────────────── */
   const photoCarousel = document.getElementById('photoCarousel');
